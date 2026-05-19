@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_eplacement/splashScreen.dart';
+import 'package:flutter_eplacement/widgets/ListingScreen.dart';
+
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +11,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MaterialApp(
       home: Scaffold(
-       body:SplashScreen(),
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 21, 62, 96),
+          foregroundColor: Colors.white,
+          title:Text("E-placement"),
+          actions: <Widget>[
+                Icon(Icons.add),
+          ],
+          ),
+        body: Listingscreen(),
       ),
     );
   }
