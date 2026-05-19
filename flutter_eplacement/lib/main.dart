@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_eplacement/widgets/ListingScreen.dart';
-
+import 'package:flutter_eplacement/widgets/fragment_holder.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,17 +10,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 21, 62, 96),
           foregroundColor: Colors.white,
-          title:Text("E-placement"),
-          actions: <Widget>[
-                Icon(Icons.add),
-          ],
-          ),
-        body: Listingscreen(),
+          title: const Text("E-placement"),
+        ),
+        body: const FragmentHolder(),
       ),
     );
   }
