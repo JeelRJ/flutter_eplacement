@@ -238,6 +238,8 @@ class Listingscreen extends StatelessWidget {
           return jobDetailsScreen(
             job: job,
           );
+
+          
         },
       ),
     );
