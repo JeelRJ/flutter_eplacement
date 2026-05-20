@@ -1,25 +1,31 @@
+import 'package:flutter_eplacement/widgets/addScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
 import 'package:flutter_eplacement/widgets/editScreen.dart';
+
 class Listingscreen extends StatefulWidget {
 
   final List<JobData> jobs;
 
   final Function(int, JobData) onEdit;
+  final Function(JobData) onAdd;
   final VoidCallback onBack;
 
   const Listingscreen({
-  super.key,
-  required this.jobs,
-  required this.onEdit,
-  required this.onBack,
-});
+    super.key,
+    required this.jobs,
+    required this.onEdit,
+    required this.onBack,
+    required this.onAdd,
+  });
 
   @override
-  State<Listingscreen> createState() => _ListingscreenState();
+  State<Listingscreen> createState() =>
+      _ListingscreenState();
 }
 
-class _ListingscreenState extends State<Listingscreen> {
+class _ListingscreenState
+    extends State<Listingscreen> {
 
   String selected = "All";
 
@@ -29,7 +35,8 @@ class _ListingscreenState extends State<Listingscreen> {
     "Rajkot",
     "Surat",
     "Ahamdabad",
-    "Kutch"
+    "Kutch",
+    "Anand",
   ];
 
   @override
@@ -61,353 +68,493 @@ class _ListingscreenState extends State<Listingscreen> {
       (a, b) => a.city.compareTo(b.city),
     );
 
-    return WillPopScope(
+   return Scaffold(
 
-      onWillPop: () async {
+  appBar: AppBar(
 
-        bool? result = await showDialog(
+    backgroundColor:
+        const Color.fromARGB(255, 21, 62, 96),
 
-          context: context,
+    foregroundColor: Colors.white,
 
-          builder: (context) {
+    title: const Text("E-placement"),
 
-            return AlertDialog(
+    actions: [
 
-              title: const Text("Go Back"),
+      IconButton(
 
-              content: const Text(
-                "Do you want to go to Splash Screen?",
-              ),
+        onPressed: () {
 
-              actions: [
+          Navigator.push(
 
-                TextButton(
+            context,
 
-                  onPressed: () {
-                    Navigator.pop(context, false);
+            MaterialPageRoute(
+
+              builder: (context) {
+
+                return AddScreen(
+
+                  onAdd: (newJob) {
+
+                    widget.onAdd(newJob);
+
                   },
-
-                  child: const Text("No"),
-                ),
-
-                TextButton(
-
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-
-                  child: const Text("Yes"),
-                ),
-              ],
-            );
-          },
-        );
-
-        if (result == true) {
-          widget.onBack();
-        }
-
-        return false;
-      },
-
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-
-        child: Column(
-          children: [
-
-            Align(
-              alignment: Alignment.centerLeft,
-
-              child: ElevatedButton(
-
-                onPressed: () async {
-
-                  bool? result = await showDialog(
-
-                    context: context,
-
-                    builder: (context) {
-
-                      return AlertDialog(
-
-                        title: const Text("Go Back"),
-
-                        content: const Text(
-                          "Do you want to go to Splash Screen?",
-                        ),
-
-                        actions: [
-
-                          TextButton(
-
-                            onPressed: () {
-                              Navigator.pop(context, false);
-                            },
-
-                            child: const Text("No"),
-                          ),
-
-                          TextButton(
-
-                            onPressed: () {
-                              Navigator.pop(context, true);
-                            },
-
-                            child: const Text("Yes"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-
-                  if (result == true) {
-                    widget.onBack();
-                  }
-                },
-
-                child: const Text("Back"),
-              ),
+                );
+              },
             ),
+          );
+        },
 
-            const SizedBox(height: 10),
+        icon: const Icon(Icons.add),
+      ),
+    ],
+  ),
 
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12),
 
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.grey.shade300,
-                ),
-              ),
 
-              child: DropdownButton<String>(
+      body: WillPopScope(
 
-                value: selected,
-                isExpanded: true,
-                underline: const SizedBox(),
+        onWillPop: () async {
 
-                items: sortedCities.map((city) {
+          bool? result =
+              await showDialog(
 
-                  return DropdownMenuItem(
-                    value: city,
-                    child: Text(city),
-                  );
-
-                }).toList(),
-
-                onChanged: (value) {
-
-                  setState(() {
-                    selected = value!;
-                  });
-                },
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            Expanded(
-
-              child: widget.jobs.isEmpty
-
-                  ? const Center(
-                      child: Text("No Jobs Found"),
-                    )
-
-                  : ListView.builder(
-
-                      itemCount: filteredJobs.length,
-
-                      itemBuilder: (context, index) {
-
-                        final job = filteredJobs[index];
-
-                        return Container(
-
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 8,
-                          ),
-
-                          padding: const EdgeInsets.all(14),
-
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.circular(16),
-
-                            boxShadow: [
-
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: const Offset(0, 3),
-                              )
-                            ],
-                          ),
-
-                          child: Column(
-
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
-
-                            children: [
-
-                              Row(
-                                children: [
-
-                                  ClipRRect(
-
-                                    borderRadius:
-                                        BorderRadius.circular(10),
-
-                                    child: Image.network(
-
-                                      job.logo,
-
-                                      width: 55,
-                                      height: 55,
-
-                                      fit: BoxFit.cover,
-
-                                      errorBuilder:
-                                          (_, __, ___) {
-
-                                        return const Icon(
-                                          Icons.business,
-                                          size: 50,
-                                        );
-                                      },
-                                    ),
-                                  ),
-
-                                  const SizedBox(width: 12),
-
-                                  Expanded(
-
-                                    child: Column(
-
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-
-                                      children: [
-
-                                        Text(
-                                          job.role,
-
-                                          style:
-                                              const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight:
-                                                FontWeight.bold,
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 4),
-
-                                        Text(
-                                          "${job.name} • ${job.city}",
-
-                                          style: TextStyle(
-                                            color:
-                                                Colors.grey.shade600,
-                                            fontSize: 13,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  const Icon(
-                                    Icons.keyboard_arrow_down,
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              Divider(
-                                color: Colors.grey.shade200,
-                              ),
-
-                              const SizedBox(height: 8),
-
-                              Row(
-
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-
-                                children: [
-
-                                  Text(
-                                    "💰 ${job.stipend}",
-
-                                    style: const TextStyle(
-                                      fontWeight:
-                                          FontWeight.bold,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  Row(
-  children: [
-
-    GestureDetector(
-
-      onTap: () {
-
-        Navigator.push(
-
-          context,
-
-          MaterialPageRoute(
+            context: context,
 
             builder: (context) {
 
-              return EditScreen(
+              return AlertDialog(
 
-                job: job,
+                title: const Text("Go Back"),
 
-                onSave: (updatedJob) {
+                content: const Text(
+                  "Do you want to go to Splash Screen?",
+                ),
 
-                  widget.onEdit(
-                    index,
-                    updatedJob,
-                  );
+                actions: [
 
-                },
+                  TextButton(
+
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                        false,
+                      );
+                    },
+
+                    child: const Text("No"),
+                  ),
+
+                  TextButton(
+
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                        true,
+                      );
+                    },
+
+                    child: const Text("Yes"),
+                  ),
+                ],
               );
             },
-          ),
-        );
-      },
+          );
 
-      child: const Icon(
-        Icons.edit,
-        size: 18,
-      ),
-    ),
+          if (result == true) {
+            widget.onBack();
+          }
 
-    const SizedBox(width: 10),
+          return false;
+        },
 
-    const Icon(
-      Icons.delete,
-      size: 18,
-      color: Colors.red,
-    ),
-  ],
-)
-                                ],
-                              ),
-                            ],
+        child: Padding(
+
+          padding: const EdgeInsets.all(16),
+
+          child: Column(
+            children: [
+
+              Align(
+                alignment:
+                    Alignment.centerLeft,
+
+                child: ElevatedButton(
+
+                  onPressed: () async {
+
+                    bool? result =
+                        await showDialog(
+
+                      context: context,
+
+                      builder: (context) {
+
+                        return AlertDialog(
+
+                          title:
+                              const Text(
+                            "Go Back",
                           ),
+
+                          content:
+                              const Text(
+                            "Do you want to go to Splash Screen?",
+                          ),
+
+                          actions: [
+
+                            TextButton(
+
+                              onPressed: () {
+                                Navigator.pop(
+                                  context,
+                                  false,
+                                );
+                              },
+
+                              child:
+                                  const Text(
+                                "No",
+                              ),
+                            ),
+
+                            TextButton(
+
+                              onPressed: () {
+                                Navigator.pop(
+                                  context,
+                                  true,
+                                );
+                              },
+
+                              child:
+                                  const Text(
+                                "Yes",
+                              ),
+                            ),
+                          ],
                         );
                       },
-                    ),
-            ),
-          ],
+                    );
+
+                    if (result == true) {
+                      widget.onBack();
+                    }
+                  },
+
+                  child: const Text("Back"),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+
+                padding:
+                    const EdgeInsets.symmetric(
+                  horizontal: 12,
+                ),
+
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius:
+                      BorderRadius.circular(
+                    12,
+                  ),
+
+                  border: Border.all(
+                    color:
+                        Colors.grey.shade300,
+                  ),
+                ),
+
+                child:
+                    DropdownButton<String>(
+
+                  value: selected,
+
+                  isExpanded: true,
+
+                  underline:
+                      const SizedBox(),
+
+                  items: sortedCities.map(
+                    (city) {
+
+                      return DropdownMenuItem(
+                        value: city,
+                        child: Text(city),
+                      );
+                    },
+                  ).toList(),
+
+                  onChanged: (value) {
+
+                    setState(() {
+                      selected = value!;
+                    });
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              Expanded(
+
+                child: widget.jobs.isEmpty
+
+                    ? const Center(
+                        child: Text(
+                          "No Jobs Found",
+                        ),
+                      )
+
+                    : ListView.builder(
+
+                        itemCount:
+                            filteredJobs.length,
+
+                        itemBuilder:
+                            (context, index) {
+
+                          final job =
+                              filteredJobs[index];
+
+                          return Container(
+
+                            margin:
+                                const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
+
+                            padding:
+                                const EdgeInsets.all(
+                              14,
+                            ),
+
+                            decoration:
+                                BoxDecoration(
+
+                              color: Colors.white,
+
+                              borderRadius:
+                                  BorderRadius.circular(
+                                16,
+                              ),
+
+                              boxShadow: [
+
+                                BoxShadow(
+                                  color:
+                                      Colors.black12,
+
+                                  blurRadius: 6,
+
+                                  offset:
+                                      const Offset(
+                                    0,
+                                    3,
+                                  ),
+                                )
+                              ],
+                            ),
+
+                            child: Column(
+
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+
+                              children: [
+
+                                Row(
+                                  children: [
+
+                                    ClipRRect(
+
+                                      borderRadius:
+                                          BorderRadius.circular(
+                                        10,
+                                      ),
+
+                                      child:
+                                          Image.network(
+
+                                        job.logo,
+
+                                        width: 55,
+                                        height: 55,
+
+                                        fit: BoxFit.cover,
+
+                                        errorBuilder:
+                                            (_, __, ___) {
+
+                                          return const Icon(
+                                            Icons.business,
+                                            size: 50,
+                                          );
+                                        },
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+
+                                    Expanded(
+
+                                      child: Column(
+
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+
+                                        children: [
+
+                                          Text(
+
+                                            job.role,
+
+                                            style:
+                                                const TextStyle(
+                                              fontSize:
+                                                  17,
+
+                                              fontWeight:
+                                                  FontWeight.bold,
+                                            ),
+                                          ),
+
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+
+                                          Text(
+
+                                            "${job.name} • ${job.city}",
+
+                                            style:
+                                                TextStyle(
+                                              color: Colors
+                                                  .grey
+                                                  .shade600,
+
+                                              fontSize:
+                                                  13,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    const Icon(
+                                      Icons
+                                          .keyboard_arrow_down,
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(
+                                  height: 10,
+                                ),
+
+                                Divider(
+                                  color: Colors
+                                      .grey
+                                      .shade200,
+                                ),
+
+                                const SizedBox(
+                                  height: 8,
+                                ),
+
+                                Row(
+
+                                  mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+
+                                  children: [
+
+                                    Text(
+
+                                      "💰 ${job.stipend}",
+
+                                      style:
+                                          const TextStyle(
+                                        fontWeight:
+                                            FontWeight.bold,
+
+                                        color:
+                                            Colors.green,
+                                      ),
+                                    ),
+
+                                    Row(
+                                      children: [
+
+                                        GestureDetector(
+
+                                          onTap: () {
+
+                                            Navigator.push(
+
+                                              context,
+
+                                              MaterialPageRoute(
+
+                                                builder:
+                                                    (context) {
+
+                                                  return EditScreen(
+
+                                                    job:
+                                                        job,
+
+                                                    onSave:
+                                                        (updatedJob) {
+
+                                                      widget
+                                                          .onEdit(
+                                                        index,
+                                                        updatedJob,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+
+                                          child:
+                                              const Icon(
+                                            Icons.edit,
+                                            size: 18,
+                                          ),
+                                        ),
+
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+
+                                        const Icon(
+                                          Icons.delete,
+                                          size: 18,
+                                          color: Colors.red,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
