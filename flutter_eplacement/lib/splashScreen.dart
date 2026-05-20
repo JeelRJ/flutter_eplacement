@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+
+  final VoidCallback onNext;
+
+  const SplashScreen({
+    super.key,
+    required this.onNext,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,28 +32,31 @@ class SplashScreen extends StatelessWidget {
       child: Center(
 
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding:
+              const EdgeInsets.symmetric(horizontal: 10),
 
           child: Column(
 
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment:
+                MainAxisAlignment.center,
 
             children: [
 
-              // VERSION
               Align(
                 alignment: Alignment.topRight,
 
                 child: Container(
 
-                  padding: const EdgeInsets.symmetric(
+                  padding:
+                      const EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 6,
                   ),
 
                   decoration: BoxDecoration(
                     color: const Color(0xff00A86B),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius:
+                        BorderRadius.circular(14),
                   ),
 
                   child: const Text(
@@ -64,17 +73,17 @@ class SplashScreen extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // LOGO
               Image.asset(
                 "assets/images/logonexthire.png",
+
                 height: 120,
                 width: 120,
+
                 fit: BoxFit.contain,
               ),
 
               const SizedBox(height: 14),
 
-              // APP NAME
               const Text(
                 "NextHire",
 
@@ -88,7 +97,6 @@ class SplashScreen extends StatelessWidget {
 
               const SizedBox(height: 8),
 
-              // TAGLINE
               const Text(
                 "Your Gateway To Off-Campus Success",
 
@@ -103,7 +111,6 @@ class SplashScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // LOADER
               const SizedBox(
                 width: 26,
                 height: 26,
@@ -116,7 +123,6 @@ class SplashScreen extends StatelessWidget {
 
               const SizedBox(height: 14),
 
-              // LOADING TEXT
               const Text(
                 "Building Careers Beyond Campus...",
 
@@ -130,7 +136,17 @@ class SplashScreen extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              // COPYRIGHT
+              ElevatedButton(
+
+                onPressed: onNext,
+
+                child: const Text(
+                  "Go To Listings",
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
               const Text(
                 "© 2026 NextHire",
 
