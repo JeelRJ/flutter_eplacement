@@ -31,6 +31,7 @@ class _ListingscreenState extends State<Listingscreen> {
     "Kutch"
   ];
 
+
   @override
   Widget build(BuildContext context) {
     List<String> sortedCities = [...cities];
