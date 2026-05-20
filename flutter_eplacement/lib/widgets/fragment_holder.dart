@@ -57,7 +57,7 @@ class _FragmentHolderState extends State<FragmentHolder> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : Listingscreen(jobs: jobs);
+       ? const Center(child: CircularProgressIndicator())
+       : Listingscreen(jobs: jobs);
   }
 }
