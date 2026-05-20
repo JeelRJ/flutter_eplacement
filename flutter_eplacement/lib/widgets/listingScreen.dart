@@ -218,6 +218,7 @@ class _ListingscreenState extends State<Listingscreen> {
                                     ),
                                   ),
                                 ],
+                
                               ),
                               const SizedBox(height: 10),
                               Divider(color: Colors.grey.shade200),
