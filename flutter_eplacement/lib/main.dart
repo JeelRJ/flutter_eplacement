@@ -10,14 +10,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       home: Scaffold(
+
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 21, 62, 96),
+          backgroundColor:
+              const Color.fromARGB(255, 21, 62, 96),
           foregroundColor: Colors.white,
           title: const Text("E-placement"),
         ),
+
         body: const FragmentHolder(),
       ),
     );
