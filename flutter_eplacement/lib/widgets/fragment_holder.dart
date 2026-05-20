@@ -112,15 +112,12 @@ return Listingscreen(
   onEdit: (index, updatedJob) {
 
     setState(() {
-
       jobs[index] = updatedJob;
-
     });
   },
 );
 
       default:
-
         return const Center(
           child: Text("Screen Not Found"),
         );
@@ -129,8 +126,9 @@ return Listingscreen(
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : Listingscreen(jobs: jobs);
+    return Scaffold(
+      body: changeScreen(),
+    );
+
   }
 }
