@@ -1,9 +1,9 @@
-import 'package:flutter_eplacement/widgets/addScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
+import 'package:flutter_eplacement/widgets/addScreen.dart';
 import 'package:flutter_eplacement/widgets/editScreen.dart';
-
-class Listingscreen extends StatefulWidget {
+import 'package:flutter_eplacement/widgets/jobDetailsScreen.dart';
+class Listingscreen extends StatelessWidget {
 
   final List<JobData> jobs;
 
@@ -15,103 +15,61 @@ class Listingscreen extends StatefulWidget {
     super.key,
     required this.jobs,
     required this.onEdit,
-    required this.onBack,
     required this.onAdd,
+    required this.onBack,
   });
-
-  @override
-  State<Listingscreen> createState() =>
-      _ListingscreenState();
-}
-
-class _ListingscreenState
-    extends State<Listingscreen> {
-
-  String selected = "All";
-
-  List<String> cities = [
-    "All",
-    "Jamnager",
-    "Rajkot",
-    "Surat",
-    "Ahamdabad",
-    "Kutch",
-    "Anand",
-  ];
 
   @override
   Widget build(BuildContext context) {
 
-    List<String> sortedCities = [...cities];
-
-    sortedCities.sort((a, b) {
-
-      if (a == "All") return -1;
-      if (b == "All") return 1;
-
-      return a.toLowerCase().compareTo(
-        b.toLowerCase(),
-      );
-    });
-
-    List<JobData> filteredJobs =
-        widget.jobs.where((job) {
-
-      if (selected == "All") return true;
-
-      return job.city.toLowerCase() ==
-          selected.toLowerCase();
-
-    }).toList();
+    List<JobData> filteredJobs = jobs;
 
     filteredJobs.sort(
       (a, b) => a.city.compareTo(b.city),
     );
 
-   return Scaffold(
+    return Scaffold(
 
-  appBar: AppBar(
+      appBar: AppBar(
 
-    backgroundColor:
-        const Color.fromARGB(255, 21, 62, 96),
+        backgroundColor:
+            const Color.fromARGB(255, 21, 62, 96),
 
-    foregroundColor: Colors.white,
+        foregroundColor: Colors.white,
 
-    title: const Text("E-placement"),
+        title: const Text("E-placement"),
 
-    actions: [
+        actions: [
 
-      IconButton(
+          IconButton(
 
-        onPressed: () {
+            onPressed: () {
 
-          Navigator.push(
+              Navigator.push(
 
-            context,
+                context,
 
-            MaterialPageRoute(
+                MaterialPageRoute(
 
-              builder: (context) {
+                  builder: (context) {
 
-                return AddScreen(
+                    return AddScreen(
 
-                  onAdd: (newJob) {
+                      onAdd: (newJob) {
 
-                    widget.onAdd(newJob);
+                        onAdd(newJob);
 
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          );
-        },
+                ),
+              );
+            },
 
-        icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
-    ],
-  ),
-
-
 
       body: WillPopScope(
 
@@ -137,6 +95,7 @@ class _ListingscreenState
                   TextButton(
 
                     onPressed: () {
+
                       Navigator.pop(
                         context,
                         false,
@@ -149,6 +108,7 @@ class _ListingscreenState
                   TextButton(
 
                     onPressed: () {
+
                       Navigator.pop(
                         context,
                         true,
@@ -163,7 +123,7 @@ class _ListingscreenState
           );
 
           if (result == true) {
-            widget.onBack();
+            onBack();
           }
 
           return false;
@@ -177,8 +137,8 @@ class _ListingscreenState
             children: [
 
               Align(
-                alignment:
-                    Alignment.centerLeft,
+
+                alignment: Alignment.centerLeft,
 
                 child: ElevatedButton(
 
@@ -194,9 +154,7 @@ class _ListingscreenState
                         return AlertDialog(
 
                           title:
-                              const Text(
-                            "Go Back",
-                          ),
+                              const Text("Go Back"),
 
                           content:
                               const Text(
@@ -208,31 +166,27 @@ class _ListingscreenState
                             TextButton(
 
                               onPressed: () {
+
                                 Navigator.pop(
                                   context,
                                   false,
                                 );
                               },
 
-                              child:
-                                  const Text(
-                                "No",
-                              ),
+                              child: const Text("No"),
                             ),
 
                             TextButton(
 
                               onPressed: () {
+
                                 Navigator.pop(
                                   context,
                                   true,
                                 );
                               },
 
-                              child:
-                                  const Text(
-                                "Yes",
-                              ),
+                              child: const Text("Yes"),
                             ),
                           ],
                         );
@@ -240,7 +194,7 @@ class _ListingscreenState
                     );
 
                     if (result == true) {
-                      widget.onBack();
+                      onBack();
                     }
                   },
 
@@ -248,67 +202,14 @@ class _ListingscreenState
                 ),
               ),
 
-              const SizedBox(height: 10),
-
-              Container(
-
-                padding:
-                    const EdgeInsets.symmetric(
-                  horizontal: 12,
-                ),
-
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
-
-                  border: Border.all(
-                    color:
-                        Colors.grey.shade300,
-                  ),
-                ),
-
-                child:
-                    DropdownButton<String>(
-
-                  value: selected,
-
-                  isExpanded: true,
-
-                  underline:
-                      const SizedBox(),
-
-                  items: sortedCities.map(
-                    (city) {
-
-                      return DropdownMenuItem(
-                        value: city,
-                        child: Text(city),
-                      );
-                    },
-                  ).toList(),
-
-                  onChanged: (value) {
-
-                    setState(() {
-                      selected = value!;
-                    });
-                  },
-                ),
-              ),
-
               const SizedBox(height: 15),
 
               Expanded(
 
-                child: widget.jobs.isEmpty
+                child: jobs.isEmpty
 
                     ? const Center(
-                        child: Text(
-                          "No Jobs Found",
-                        ),
+                        child: Text("No Jobs Found"),
                       )
 
                     : ListView.builder(
@@ -322,7 +223,27 @@ class _ListingscreenState
                           final job =
                               filteredJobs[index];
 
-                          return Container(
+                         return GestureDetector(
+
+  onTap: () {
+
+    Navigator.push(
+
+      context,
+
+      MaterialPageRoute(
+
+        builder: (context) {
+
+          return jobDetailsScreen(
+            job: job,
+          );
+        },
+      ),
+    );
+  },
+
+  child: Container(
 
                             margin:
                                 const EdgeInsets.symmetric(
@@ -357,7 +278,7 @@ class _ListingscreenState
                                     0,
                                     3,
                                   ),
-                                )
+                                ),
                               ],
                             ),
 
@@ -418,8 +339,7 @@ class _ListingscreenState
 
                                             style:
                                                 const TextStyle(
-                                              fontSize:
-                                                  17,
+                                              fontSize: 17,
 
                                               fontWeight:
                                                   FontWeight.bold,
@@ -440,8 +360,7 @@ class _ListingscreenState
                                                   .grey
                                                   .shade600,
 
-                                              fontSize:
-                                                  13,
+                                              fontSize: 13,
                                             ),
                                           ),
                                         ],
@@ -515,8 +434,7 @@ class _ListingscreenState
                                                     onSave:
                                                         (updatedJob) {
 
-                                                      widget
-                                                          .onEdit(
+                                                      onEdit(
                                                         index,
                                                         updatedJob,
                                                       );
@@ -544,12 +462,12 @@ class _ListingscreenState
                                           color: Colors.red,
                                         ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                          );
+                          ), );
                         },
                       ),
               ),
