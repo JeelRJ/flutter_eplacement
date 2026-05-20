@@ -7,7 +7,13 @@ import 'package:flutter_eplacement/widgets/listingScreen.dart';
 import 'package:http/http.dart' as http;
 
 class FragmentHolder extends StatefulWidget {
-  const FragmentHolder({super.key});
+
+  final Function(int) onScreenChange;
+
+  const FragmentHolder({
+    super.key,
+    required this.onScreenChange,
+  });
 
   @override
   State<FragmentHolder> createState() => _FragmentHolderState();
@@ -83,6 +89,7 @@ class _FragmentHolderState extends State<FragmentHolder> {
 
             setState(() {
               selectedIndex = 1;
+              widget.onScreenChange(1);
             });
 
           },
@@ -100,11 +107,19 @@ class _FragmentHolderState extends State<FragmentHolder> {
 return Listingscreen(
 
   jobs: jobs,
+onAdd: (newJob) {
 
+    setState(() {
+
+      jobs.add(newJob);
+
+    });
+  },
   onBack: () {
 
     setState(() {
       selectedIndex = 0;
+      widget.onScreenChange(0);
     });
 
   },

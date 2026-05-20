@@ -5,9 +5,15 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget  {
   const MainApp({super.key});
+@override
+State<MainApp> createState() => _MainAppState();
+}
 
+class _MainAppState extends State<MainApp> {
+
+  int currentScreen = 0;
   @override
   Widget build(BuildContext context) {
 
@@ -16,14 +22,18 @@ class MainApp extends StatelessWidget {
 
       home: Scaffold(
 
-        appBar: AppBar(
-          backgroundColor:
-              const Color.fromARGB(255, 21, 62, 96),
-          foregroundColor: Colors.white,
-          title: const Text("E-placement"),
-        ),
+        
+        body: FragmentHolder(
 
-        body: const FragmentHolder(),
+  onScreenChange: (index) {
+
+    setState(() {
+
+      currentScreen = index;
+
+    });
+  },
+),
       ),
     );
   }
