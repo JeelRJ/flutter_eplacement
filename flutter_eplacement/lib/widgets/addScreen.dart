@@ -108,7 +108,7 @@ class _AddScreenState extends State<AddScreen> {
                     logo: logoController.text,
 
                     eligibility: "",
-                    applylink: "",
+                    applyLink: "",
                   );
 
                   widget.onAdd(newJob);

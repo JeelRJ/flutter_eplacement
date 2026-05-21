@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_eplacement/splashScreen.dart';
 import 'package:flutter_eplacement/widgets/fragment_holder.dart';
 
 void main() {
@@ -18,23 +19,11 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-
-      home: Scaffold(
-
-        
-        body: FragmentHolder(
-
-  onScreenChange: (index) {
-
-    setState(() {
-
-      currentScreen = index;
-
-    });
-  },
-),
-      ),
+       initialRoute: '/',
+       routes: {
+        '/':(context)=> const SplashScreen(),
+        '/listings':(context)=> const FragmentHolder()
+       },
     );
   }
 }

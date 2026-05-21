@@ -104,7 +104,7 @@ class _EditScreenState extends State<EditScreen> {
 
                   logo: widget.job.logo,
                   eligibility: widget.job.eligibility,
-                  applylink: widget.job.applylink,
+                  applyLink: widget.job.applyLink,
                 );
 
                 widget.onSave(updatedJob);
