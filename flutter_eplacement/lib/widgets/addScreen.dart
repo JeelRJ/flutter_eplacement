@@ -110,7 +110,6 @@ class _AddScreenState extends State<AddScreen> {
                     eligibility: "",
                     applyLink: "",
                   );
-
                   widget.onAdd(newJob);
 
                   Navigator.pop(context);
