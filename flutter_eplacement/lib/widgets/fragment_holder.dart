@@ -14,6 +14,10 @@ class FragmentHolder extends StatefulWidget {
 }
 
 class _FragmentHolderState extends State<FragmentHolder> {
+   _FragmentHolderState(){
+     prepareList() ;
+   }
+
   int selectedIndex = 0;
 
   // CHANGED: Use 'late' so we can initialize a mutable copy in initState
@@ -27,6 +31,21 @@ class _FragmentHolderState extends State<FragmentHolder> {
       await prefs.setString("my_object_key", jsonString);
    }
 
+   Future<void> prepareList() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+     String? jsonstring = prefs.getString("my_object_key");
+
+     if(jsonstring==null) return ;
+     
+     List<dynamic> decodedata=jsonDecode(jsonstring);
+     List<JobData> data= decodedata.map((jsonObject) {
+      return JobData.fromJson(jsonObject);
+      }).toList();
+
+      setState(() {
+        jobs=data;
+      });
+   }
 
   @override
   void initState() {

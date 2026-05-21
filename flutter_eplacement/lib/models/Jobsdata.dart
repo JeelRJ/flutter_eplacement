@@ -24,7 +24,16 @@ class JobData {
           
     };
   }
-
+  
+  factory JobData.fromJson(Map<String,dynamic> json){
+           return JobData(name: json['name'] as String ,
+            city: json['city'] as String, 
+            role: json['role'] as String,
+             logo: json['logo'] as String,
+              eligibility: json['eligibility'] as String, 
+              stipend: json['stipend'] as String, 
+              applyLink: json['applyLink'] as String);
+  }
 }
 
 // List<JobData> data=
