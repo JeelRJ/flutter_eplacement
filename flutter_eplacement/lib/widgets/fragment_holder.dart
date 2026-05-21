@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
 import 'package:flutter_eplacement/splashScreen.dart';
 import 'package:flutter_eplacement/widgets/listingScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FragmentHolder extends StatefulWidget {
   const FragmentHolder({super.key});
@@ -17,14 +20,21 @@ class _FragmentHolderState extends State<FragmentHolder> {
   late List<JobData> jobs;
   bool isLoading = true;
 
-  // FIX: Added initState to turn off the loading state after the screen mounts
+   Future<void> saveList() async{
+    
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String  jsonString = jsonEncode(jobs.map((item)=> item.toJson()).toList());
+      await prefs.setString("my_object_key", jsonString);
+   }
+
+
   @override
   void initState() {
     super.initState();
     // Creates a modifiable copy of your data list so CRUD actions don't crash
-    jobs = List.from(data); 
+    jobs = []; 
 
-    // Simulates a quick data load delay (e.g., 2000ms) then tells Flutter to render the list
+    
     Future.delayed(const Duration(milliseconds: 2000), () {
   
         setState(() {
@@ -50,16 +60,19 @@ class _FragmentHolderState extends State<FragmentHolder> {
           onAdd: (newJob) {
             setState(() {
               jobs.add(newJob);
+              saveList();
             });
           },
           onEdit: (index, updatedJob) {
             setState(() {
               jobs[index] = updatedJob;
+              saveList();
             });
           },
           onDelete: (index) {
             setState(() {
               jobs.removeAt(index);
+              saveList();
             });
           },
         );
