@@ -19,11 +19,9 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-       initialRoute: '/',
-       routes: {
-        '/':(context)=> const SplashScreen(),
-        '/listings':(context)=> const FragmentHolder()
-       },
+       home: Scaffold(
+        body: FragmentHolder(),
+       ),
     );
   }
 }

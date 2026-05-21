@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
+import 'package:flutter_eplacement/splashScreen.dart';
 import 'package:flutter_eplacement/widgets/listingScreen.dart';
 
 class FragmentHolder extends StatefulWidget {
@@ -20,23 +21,24 @@ class _FragmentHolderState extends State<FragmentHolder> {
   @override
   void initState() {
     super.initState();
-    
     // Creates a modifiable copy of your data list so CRUD actions don't crash
     jobs = List.from(data); 
 
-    // Simulates a quick data load delay (e.g., 600ms) then tells Flutter to render the list
-    Future.delayed(const Duration(milliseconds: 600), () {
-      if (mounted) {
+    // Simulates a quick data load delay (e.g., 2000ms) then tells Flutter to render the list
+    Future.delayed(const Duration(milliseconds: 2000), () {
+  
         setState(() {
-          isLoading = false; // This breaks the endless loading loop!
+          isLoading = false; 
+           selectedIndex=1;
         });
-      }
+      
     });
   }
 
   Widget changeScreen() {
     switch (selectedIndex) {
-      case 0:
+      case 0: return SplashScreen();
+      case 1:
         if (isLoading) {
           return const Center(
             child: CircularProgressIndicator(),

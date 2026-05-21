@@ -1,6 +1,6 @@
-import 'package:flutter_eplacement/widgets/addScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
+import 'package:flutter_eplacement/widgets/addScreen.dart';
 import 'package:flutter_eplacement/widgets/editScreen.dart';
 
 class Listingscreen extends StatefulWidget {
@@ -90,7 +90,6 @@ class _ListingscreenState extends State<Listingscreen> {
 
         child: Column(
           children: [
-
             const SizedBox(height: 10),
 
             Container(
@@ -230,10 +229,8 @@ class _ListingscreenState extends State<Listingscreen> {
                                 children: [
                                   Text(
                                     " ${job.stipend}",
-
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-
                                       color: Colors.green,
                                     ),
                                   ),
@@ -250,7 +247,10 @@ class _ListingscreenState extends State<Listingscreen> {
                                                 return EditScreen(
                                                   job: job,
                                                   onSave: (updatedJob) {
-                                                    widget.onEdit(index,updatedJob,);
+                                                    widget.onEdit(
+                                                      index,
+                                                      updatedJob,
+                                                    );
                                                   },
                                                 );
                                               },
@@ -263,16 +263,19 @@ class _ListingscreenState extends State<Listingscreen> {
 
                                       const SizedBox(width: 10),
 
-                                      //delete
                                       GestureDetector(
                                         onTap: () async {
-                                          bool result = await showDialog(
+                                          bool? result = await showDialog(
                                             context: context,
+
                                             builder: (context) {
                                               return AlertDialog(
-                                                title: Text(
+                                                title: const Text("Delete Job"),
+
+                                                content: const Text(
                                                   "Are you sure you want to delete this job?",
                                                 ),
+
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () {
@@ -281,7 +284,8 @@ class _ListingscreenState extends State<Listingscreen> {
                                                         false,
                                                       );
                                                     },
-                                                    child: Text("cancel"),
+
+                                                    child: const Text("Cancel"),
                                                   ),
 
                                                   TextButton(
@@ -291,7 +295,13 @@ class _ListingscreenState extends State<Listingscreen> {
                                                         true,
                                                       );
                                                     },
-                                                    child: Text("Delete"),
+
+                                                    child: const Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               );
@@ -303,7 +313,11 @@ class _ListingscreenState extends State<Listingscreen> {
                                           }
                                         },
 
-                                        child: const Icon(Icons.delete,size: 18,color: Colors.red,),
+                                        child: const Icon(
+                                          Icons.delete,
+                                          size: 18,
+                                          color: Colors.red,
+                                        ),
                                       ),
                                     ],
                                   ),
