@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
 import 'package:flutter_eplacement/widgets/listingScreen.dart';
 
-
 class FragmentHolder extends StatefulWidget {
   const FragmentHolder({super.key});
 
