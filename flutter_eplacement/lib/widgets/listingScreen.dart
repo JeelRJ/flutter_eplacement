@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_eplacement/models/Jobsdata.dart';
 import 'package:flutter_eplacement/widgets/addScreen.dart';
 import 'package:flutter_eplacement/widgets/editScreen.dart';
+import 'package:flutter_eplacement/widgets/jobDetailsScreen.dart';
 
 class Listingscreen extends StatefulWidget {
   final List<JobData> jobs;
@@ -212,7 +213,22 @@ class _ListingscreenState extends State<Listingscreen> {
                                     ),
                                   ),
 
-                                  const Icon(Icons.keyboard_arrow_down),
+                                  
+                                   GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return jobDetailsScreen(job:job);
+                                              },
+                                            ),
+                                          );
+                                        },
+
+                                        child: const Icon(Icons.keyboard_arrow_down),
+                                      ),
                                 ],
                               ),
 
